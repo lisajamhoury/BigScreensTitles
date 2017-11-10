@@ -9,8 +9,8 @@ float AREA;
 //GRID 
 float COLUMNWIDTH;
 float ROWHEIGHT;
-int VERTICALDIV = 100;
-int HORIZONTALDIV = 10;
+int VERTICALDIV = 72;
+int HORIZONTALDIV = 8;
 
 
 void setupGrid() {  
@@ -25,5 +25,19 @@ void setupGrid() {
   
   //resolution = floor(width/180); // scale resolution to canvas size 
   COLUMNWIDTH = width / VERTICALDIV;
-  ROWHEIGHT = floor( height / HORIZONTALDIV );  
+  ROWHEIGHT = height / HORIZONTALDIV;  
+}
+
+void drawGrid() {
+  for (int i = 0; i <= VERTICALDIV; i++) {
+    fill(255);
+    stroke(255);
+    line(i*COLUMNWIDTH, 0, i*COLUMNWIDTH, height); 
+  } 
+  
+  for (int i = 0; i <= HORIZONTALDIV; i++) {
+    fill(255);
+    stroke(255);
+    line(0, i*ROWHEIGHT, width, i*ROWHEIGHT); 
+  } 
 }

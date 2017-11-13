@@ -12,11 +12,11 @@ class GridLine {
   void update() {
 
     if (direction.equals("horizontal")) {
-      endPoint.x += 1;
+      endPoint.x += 0.0035*width;
     } 
 
     if (direction.equals("vertical")) {
-      endPoint.y += 1;
+      endPoint.y += 0.0035*height;
     }
     
   }

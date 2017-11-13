@@ -9,8 +9,8 @@ float AREA;
 //GRID 
 float COLUMNWIDTH;
 float ROWHEIGHT;
-int VERTICALDIV = 72;
-int HORIZONTALDIV = 8;
+float VERTICALDIV = 71.008;
+float HORIZONTALDIV = 8.88;
 
 
 void setupGrid() {  

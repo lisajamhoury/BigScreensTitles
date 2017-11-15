@@ -1,4 +1,5 @@
-boolean debug = false;
+boolean debugGrid = false;
+boolean debugText = true;
 
 void setup() {
   //size(11520, 1080, P3D);
@@ -10,9 +11,9 @@ void setup() {
   //size(1920, 180, P3D); //Aaron's projector 
   size(1440, 135, P2D);
   //surface.setLocation(0,0);
-  
-  setupText();
+
   setupGrid(); 
+  setupText();
   setupAnimGrid();
   setupAnimBoxes();
 
@@ -20,19 +21,14 @@ void setup() {
   //background(0);
   smooth(4);
   noCursor();
-
-
 }
 
 void draw() {
   background(255);
 
-
-  //drawText();
-  animBoxes();
+  //animBoxes();
   //animGrid();
 
-
-
-  if (debug) drawGrid();
+  if (debugGrid) drawGrid();
+  if (debugText) drawText();
 }

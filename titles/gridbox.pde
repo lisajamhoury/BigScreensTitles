@@ -1,53 +1,56 @@
 class GridBox {
   PVector location; //top left corner of rect
   color boxClr; 
-  //boolean onLetter = false;
   float distToLtr;
-  //float acceptableDist = width/4;
-  float acceptableDist = width/4;
+  float acceptableDist = 0.002 * width; // acceptable distance from letters
 
   GridBox(PVector iLoc) {
     location = iLoc;
 
     distToLtr = distToLtr();
 
-    boxClr = color(0);
+    boxClr = color(0); // change this to random
   }
 
   // Get distance of box to letters
   float distToLtr() {
     float tempDist = width;  
 
-    for ( RPoint point : fontPoints ) {
-      float diff = dist(location.x, location.y, point.x, point.y);
-      if (diff < tempDist) tempDist = diff;
-    }  
+    // for ( RPoint point : fontPoints ) {
+    //   float diff = dist(location.x, location.y, point.x, point.y);
+    //   if (diff < tempDist) tempDist = diff;
+    // }  
 
     return tempDist;
   }
 
-  void update() {
-    
-    if (acceptableDist >= 0.002 * width) {
-      acceptableDist -= 0.0005 * width;
-    }
-    
-    //Make random colors 
-    //int temp = floor(random(2));
+  void update(float prob) {
 
-    //if (temp == 0) {
-    //  boxClr = color(0);
-    //} else {
-    //  boxClr = color (255);
-    //}
+    //Make random colors 
+    float num = random(1);
+
+    // if the box is on letter, 
+    // probability increases over time that it is black
+    if (distToLtr < acceptableDist) {
+      if (num < prob) {
+        boxClr = color(0);
+      } else {
+        boxClr = color (255);
+      }
+    // if the box is not on letter, 
+    // probability increases over time that it is white
+    } else {      
+      if (num >= prob) {
+        boxClr = color(0);
+      } else {
+        boxClr = color (255);
+      }
+    }
   }
 
   void run() {
-
-    if (distToLtr < acceptableDist ) {
-      fill(boxClr);
-      stroke(boxClr);
-      rect(location.x, location.y, COLUMNWIDTH/4, ROWHEIGHT/4);
-    }
+    fill(boxClr);
+    stroke(boxClr);
+    rect(location.x, location.y, COLUMNWIDTH/GRIDBOXDIV, ROWHEIGHT/GRIDBOXDIV);
   }
 }

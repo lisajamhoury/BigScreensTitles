@@ -18,13 +18,25 @@ class GridLine {
     if (direction.equals("vertical")) {
       endPoint.y += 0.0035*height;
     }
+
+  }
+
+  boolean endState() {
+    boolean endState = false; 
     
+    // check if endpoint has crossed the middle 
+    if (endPoint.x >= width/2) {
+      endState = true;
+    }
+
+    return endState;
+
   }
 
   void run() {
     
     strokeWeight(0.001*width);
-    stroke(255);
+    stroke(0);
 
     line(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 

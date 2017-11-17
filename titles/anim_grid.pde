@@ -26,10 +26,12 @@ void setupAnimGrid() {
   
 }
 
-void animGrid() {
+boolean animGrid() {
+  boolean endState = false;
 
   for (GridLine line : rowLines) {
     line.update();
+    endState = line.endState();
     line.run();
   }
   
@@ -37,5 +39,7 @@ void animGrid() {
     line.update();
     line.run();
   }
+
+  return endState;
   
 }

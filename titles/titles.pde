@@ -1,5 +1,8 @@
 boolean debugGrid = false;
-boolean debugText = true;
+boolean debugText = false;
+
+int sketchState = 0;
+boolean changeSketchState = false;
 
 void setup() {
   //size(11520, 1080, P3D);
@@ -17,17 +20,40 @@ void setup() {
   setupAnimGrid();
   setupAnimBoxes();
 
-
   //background(0);
   smooth(4);
   noCursor();
 }
 
+void changeSketchState() {
+  sketchState++;
+  changeSketchState = false;
+}
+
 void draw() {
   background(255);
 
-  //animBoxes();
-  //animGrid();
+  if (changeSketchState) {
+    changeSketchState();
+  }
+
+  if (sketchState == 0) {
+    changeSketchState = animGrid();
+  }
+
+  if (sketchState == 1) {
+    changeSketchState = holdBoxesState();
+    drawBoxes();
+  }
+
+  if (sketchState == 2) {
+    animText();  
+  }
+
+
+  
+
+
 
   if (debugGrid) drawGrid();
   if (debugText) drawText();

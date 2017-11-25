@@ -11,7 +11,7 @@ float COLUMNWIDTH;
 float ROWHEIGHT;
 float VERTICALDIV = 71.008;
 float HORIZONTALDIV = 8.88;
-int  GRIDBOXDIV = 3;
+//int  GRIDBOXDIV = 7; // 3 for big screens big text 
 
 
 void setupGrid() {  

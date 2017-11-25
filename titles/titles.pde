@@ -1,7 +1,8 @@
 boolean debugGrid = false;
 boolean debugText = false;
+boolean looping = true;
 
-int sketchState = 0;
+int sketchState = 2;
 boolean changeSketchState = false;
 
 void setup() {
@@ -9,16 +10,17 @@ void setup() {
   //fullScreen(P2D, SPAN);
   //size(5000, 469, P3D); // my display
   //fullScreen(P3D);
-  //size(2880, 270, P3D);
+  //size(2880, 270, P2D);
   //size(3840,360, P3D);
   //size(1920, 180, P3D); //Aaron's projector 
+
   size(1440, 135, P2D);
   //surface.setLocation(0,0);
 
   setupGrid(); 
   setupText();
   setupAnimGrid();
-  setupAnimBoxes();
+  //setupAnimBoxes();
 
   //background(0);
   smooth(4);
@@ -42,19 +44,24 @@ void draw() {
   }
 
   if (sketchState == 1) {
-    changeSketchState = holdBoxesState();
-    drawBoxes();
+    changeSketchState = boxGridBS.holdBoxesState();
+    boxGridBS.drawBoxes();
   }
 
   if (sketchState == 2) {
     animText();  
   }
 
-
-  
-
-
-
   if (debugGrid) drawGrid();
   if (debugText) drawText();
+
+
+}
+
+void keyPressed() {
+
+  if (looping) noLoop();
+  if (!looping) loop();
+
+  looping = !looping;
 }

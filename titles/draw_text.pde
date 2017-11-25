@@ -1,29 +1,50 @@
 import geomerative.*;
 
-String studentTitle = "My Title";
+// setup grid of boxes for big screens text 
+BoxGrid boxGridBS;
+BoxGrid boxGridTitle;
 
-// Declare the objects we are going to use, so that they are accesible from setup() and from draw()
+String studentTitle = "Running Out of Time";
+String studentAttribution = "Mayukh Goswami, Utsav Chadha, Mindy Ossi";
+
 TextBlock bigScreens;
 TextBlock titleL;
 TextBlock titleC;
 TextBlock titleR;
 
+StudentName namesL;
+StudentName namesC;
+StudentName namesR;
+
+NameHighlight highLightL;
+
 ArrayList<PVector> combTitlesPoints;
 
-int textState = 0; 
+int textState = 6; 
 boolean changeState = false;
 
 void setupText() {
-  // VERY IMPORTANT: Allways initialize the library in the setup
+  // Initialize geomerative 
   RG.init(this);
 
-  //  Load the font file we want to use (the file must be in the data folder in the sketch floder), with the size 60 and the alignment CENTER
+  boxGridBS = new BoxGrid(3, 0.002 * width);
+  boxGridTitle = new BoxGrid(7, 0.001 * width);
+
+  // ONETHIRD/COLUMNWIDTH gives amount of columns for width of allowable screen
+  float acceptableDist = width * 1.0;
+  float limitL = (ONETHIRD/COLUMNWIDTH) * 3;
+  float limitR = (TWOTHIRD/COLUMNWIDTH) * 3;
+  //float limitR = (ONETHIRD/COLUMNWIDTH) * 3;
+  //println(ONETHIRD, COLUMNWIDTH, limitR);
+  highLightL = new NameHighlight(VISUALLEFTCTR, limitL, limitR, 3, acceptableDist, 1000);
+
+  //  Load the font file we want to use (the file must be in the data folder in the sketch floder)
   int fontSize = floor(0.105 * width);
   float bsOffsetX = width/2;
   float bsOffsetY = height*7/8; 
   bigScreens = new TextBlock(fontSize, bsOffsetX, bsOffsetY, "BIG SCREENS 2017", "Block-Berthold-Regular.ttf");
 
-  int fontSizeStudent = floor(0.05 * width);
+  int fontSizeStudent = floor(0.023* width);
   titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
   titleC = new TextBlock(fontSizeStudent, VISUALCTR.x, VISUALCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
   titleR = new TextBlock(fontSizeStudent, VISUALRIGHTCTR.x, VISUALRIGHTCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
@@ -33,6 +54,16 @@ void setupText() {
   combinePoints(titleL.fontPoints);
   combinePoints(titleC.fontPoints);
   combinePoints(titleR.fontPoints);
+
+  PFont whitneySemiBoldSC = createFont("Whitney-SemiboldSC.ttf", 50);
+  textFont(whitneySemiBoldSC);
+  textSize(int(fontSizeStudent/2));
+  textAlign(CENTER);
+
+  // Create attribution lines 
+  namesL = new StudentName(VISUALLEFTCTR, studentAttribution);
+  namesC = new StudentName(VISUALCTR, studentAttribution);
+  namesR = new StudentName(VISUALRIGHTCTR, studentAttribution);
   
 }
 
@@ -46,7 +77,6 @@ void combinePoints(RPoint[] fPoints) {
 void drawText() {
 
   fill(0);
-  stroke(0);
 
   bigScreens.display();
   titleL.display();
@@ -62,59 +92,75 @@ void advanceState() {
 } 
 
 void animText() {
+    
+
+
   if (changeState) advanceState();
 
-
-  //random boxes
-  //animBoxes()
+  // map grid boxes to big screens
+  if (textState == 0) {
+    boxGridBS.boxesToText(bigScreens);
+    boxGridBS.animBoxes();
+    changeState = true; 
+  } 
 
   //resolve to Big Screens  
-  if (textState == 0) {
-    boxesToText(bigScreens);
-    animBoxes();
-    changeState = true; 
-  } 
-
   if (textState == 1) {
-    resolveBoxes();  
-    animBoxes();
+    boxGridBS.resolveBoxes();  
+    boxGridBS.animBoxes();
   }
 
+  // hold big screens on screen
   if (textState == 2) {
-    changeState = holdBoxesState();
-    animBoxes();
+    changeState = boxGridBS.holdBoxesState();
+    boxGridBS.animBoxes();
   } 
 
+  // unresolve big screens
   if (textState == 3) {
-    unresolveBoxes();
-    animBoxes();
+    boxGridBS.unresolveBoxes();
+    boxGridBS.animBoxes();
   }
 
+  // map grid boxes to student title
   if (textState == 4) {
-    boxesToTextPVect(combTitlesPoints);
-    animBoxes();
+    boxGridTitle.boxesToTextPVect(combTitlesPoints);
+    boxGridTitle.animBoxes();
     changeState = true; 
   }
 
+  // resolve bodes to student title
   if (textState == 5) {
-    resolveBoxes();
-    animBoxes();
+    boxGridTitle.resolveBoxes();
+    boxGridTitle.animBoxes();
   }
 
+  // hold title on screen 
   if (textState == 6) {
-    changeState = holdBoxesState();
-    animBoxes();
+    boolean dontChange = boxGridTitle.holdBoxesState();
+    //changeState = boxGridTitle.holdBoxesState();
+    //boxGridTitle.animBoxes();
+    highLightL.drawBoxes();
+
+    namesL.display();
+    namesC.display();
+    namesR.display();
   }
 
   if (textState == 7) {
-    unresolveBoxes();
-    animBoxes();
+    boxGridTitle.unresolveBoxes();
+    boxGridTitle.animBoxes();
+    // namesL.display();
+    // namesC.display();
+    // namesR.display();
   }
 
   if (textState == 8) {
-    fadeToBlack();
+    boxGridTitle.fadeToBlack();
 
   }
+
+  
   
   
   

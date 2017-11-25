@@ -19,7 +19,6 @@ class TextBlock {
 
   void display() {
     fill(0);
-    stroke(0);
 
     for (int i=0; i<fontPoints.length; i++) {
      rect(fontPoints[i].x, fontPoints[i].y, 5, 5);

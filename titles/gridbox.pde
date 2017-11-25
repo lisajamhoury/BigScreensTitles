@@ -3,13 +3,17 @@ class GridBox {
   color initClr;
   color boxClr; 
   float distToLtr;
-  float acceptableDist = 0.002 * width; // acceptable distance from letters
+  float acceptableDist;
+  int gridBoxDiv;
 
-  GridBox(PVector iLoc, color iClr) {
+  GridBox(PVector iLoc, color iClr, int iGBDiv, float iAD) {
     location = iLoc;
-
+    
     initClr = iClr;
     boxClr = initClr; 
+
+    gridBoxDiv = iGBDiv;
+    acceptableDist = iAD;
   }
 
   // Get distance of box to letters
@@ -73,8 +77,8 @@ class GridBox {
   }
 
   void run() {
+    noStroke();
     fill(boxClr);
-    stroke(boxClr);
-    rect(location.x, location.y, COLUMNWIDTH/GRIDBOXDIV, ROWHEIGHT/GRIDBOXDIV);
+    rect(location.x, location.y, COLUMNWIDTH/gridBoxDiv, ROWHEIGHT/gridBoxDiv);
   }
 }

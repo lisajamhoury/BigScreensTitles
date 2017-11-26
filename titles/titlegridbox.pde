@@ -2,10 +2,17 @@ class TitleGridBox extends GridBox {
   float distToLtr;
   float acceptableDist;
 
-  TitleGridBox(PVector iLoc, color iClr, int iGBDiv, float iAD) {
+  boolean initDrawState = true;
+  boolean draw = true;
+
+
+  TitleGridBox(PVector iLoc, color iClr, int iGBDiv, float iAD, boolean iDraw) {
     super(iLoc, iClr, iGBDiv);
 
     acceptableDist = iAD;
+
+    initDrawState = iDraw; // use to redraw grid
+    draw = iDraw;
 
   }
 
@@ -38,9 +45,11 @@ class TitleGridBox extends GridBox {
     float num = random(1);
 
     if (num >= prob) {
-      boxClr = color(0);
+      //boxClr = color(0);
+      draw = true;
     } else {
-      boxClr = color (255);
+      draw = false;
+      //boxClr = color (255);
     }
     
   }
@@ -54,17 +63,21 @@ class TitleGridBox extends GridBox {
     // probability increases over time that it is black
     if (distToLtr < acceptableDist) {
       if (num < prob) {
-        boxClr = color(0);
+        draw = true;
+        //boxClr = color(0);
       } else {
-        boxClr = color (255);
+        draw = false;
+        //boxClr = color (255);
       }
     // if the box is not on letter, 
     // probability increases over time that it is white
     } else {      
       if (num >= prob) {
-        boxClr = color(0);
+        //boxClr = color(0);
+        draw = true;
       } else {
-        boxClr = color (255);
+        draw = false;
+        //boxClr = color (255);
       }
     }
   }

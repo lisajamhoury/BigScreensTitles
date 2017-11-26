@@ -17,10 +17,12 @@ StudentName namesC;
 StudentName namesR;
 
 NameHighlight highLightL;
+NameHighlight highLightC;
+NameHighlight highLightR;
 
 ArrayList<PVector> combTitlesPoints;
 
-int textState = 6; 
+int textState = 0; 
 boolean changeState = false;
 
 void setupText() {
@@ -62,9 +64,12 @@ void setupText() {
 
   // ONETHIRD/COLUMNWIDTH gives amount of columns for width of allowable screen
   float limitL = 0.0;
-  float limitR = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
+  float limitR = width;
+  //float limitR = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
   //println(ONETHIRD, COLUMNWIDTH, limitR);
   highLightL = new NameHighlight(VISUALLEFTCTR, limitL, limitR, bsGridDivs, 1500);
+  highLightC = new NameHighlight(VISUALCTR, limitL, limitR, bsGridDivs, 1500);
+  highLightR = new NameHighlight(VISUALRIGHTCTR, limitL, limitR, bsGridDivs, 1500);
   
 }
 
@@ -138,18 +143,41 @@ void animText() {
 
   // hold title on screen 
   if (textState == 6) {
+    changeState = boxGridTitle.holdBoxesState();
+    boxGridTitle.animBoxes();
 
-    // boolean dontChange = boxGridTitle.holdBoxesState();
-    // changeState = boxGridTitle.holdBoxesState();
-    // boxGridTitle.animBoxes();
+  }
 
-    highLightL.drawBoxes();
+  // hold title, resolve student names 
+  if (textState == 7) {
+    changeState = boxGridTitle.holdBoxesState();
+    boxGridTitle.animBoxes();
+
+    highLightL.enterBoxes();
+    highLightC.enterBoxes();
+    highLightR.enterBoxes();
     namesL.display();
     namesC.display();
     namesR.display();
+
   }
 
-  if (textState == 7) {
+  // hold title, remove student names 
+  if (textState == 8) {
+    changeState = boxGridTitle.holdBoxesState();
+    boxGridTitle.animBoxes();
+
+    highLightL.exitBoxes();
+    highLightC.exitBoxes();
+    highLightR.exitBoxes();
+    namesL.display();
+    namesC.display();
+    namesR.display();    
+
+  }
+
+  // unresolve title
+  if (textState == 9) {
     boxGridTitle.unresolveBoxes();
     boxGridTitle.animBoxes();
     // namesL.display();
@@ -157,12 +185,13 @@ void animText() {
     // namesR.display();
   }
 
-  if (textState == 8) {
+  // fadet to black
+  if (textState == 10) {
     boxGridTitle.fadeToBlack();
 
   }
 
-  
+  //print(textState);
   
   
   

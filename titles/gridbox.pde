@@ -17,7 +17,8 @@ class GridBox {
 
   void run() {
     noStroke();
+
     fill(boxClr);
-    rect(location.x, location.y, COLUMNWIDTH/gridBoxDiv, ROWHEIGHT/gridBoxDiv);
+    rect(location.x, location.y, COLUMNWIDTH/gridBoxDiv, ROWHEIGHT/gridBoxDiv);      
   }
 }

@@ -4,7 +4,7 @@ class BoxGrid {
   float probInc = 0.005;
 
   int now = 0;
-  int holdTime = 500; // 3 seconds
+  int holdTime = 3000; // 3 seconds
   boolean timing = false;
 
   BoxGrid(int gridBoxDiv, float acceptableDist) {
@@ -26,17 +26,24 @@ class BoxGrid {
       for (int j = 0; j <= HORIZONTALDIV*gridBoxDiv; j++) {
         PVector initLoc = new PVector(i*(COLUMNWIDTH/gridBoxDiv), j*(ROWHEIGHT/gridBoxDiv));
 
-        color initClr = color(255, 0, 0);
+        color initClr = color(0);
+        boolean initDraw = true;
+
         // Only r++ for ever 3x j++
         int r = int(j/gridBoxDiv);
         // Fill white for even cols + even rows
         // Fill white for odd cols + odd rows
-        if ((c%2 == 0 && r%2 == 0) || (c%2 == 1 && r%2 == 1)) initClr = color(255);
+        if ((c%2 == 0 && r%2 == 0) || (c%2 == 1 && r%2 == 1)) {
+          initDraw = false;
+
+        }
         // Fill black for odd cols + even rows
         // Fill black for even cols + odd rows
-        else if ((c%2 == 1 && r%2 == 0) || (c%2 == 0 && r%2 == 1)) initClr = color(0);
+        else if ((c%2 == 1 && r%2 == 0) || (c%2 == 0 && r%2 == 1)) {
+          initDraw = true;
+        }
 
-        TitleGridBox gbox = new TitleGridBox(initLoc, initClr, gridBoxDiv, acceptableDist);
+        TitleGridBox gbox = new TitleGridBox(initLoc, initClr, gridBoxDiv, acceptableDist, initDraw);
 
         gridBoxes.add(gbox);
 
@@ -98,7 +105,7 @@ class BoxGrid {
 
   void drawBoxes() {
     for (TitleGridBox box : gridBoxes) {
-      box.run();
+      if (box.draw) box.run();
     }
   }
 
@@ -112,7 +119,7 @@ class BoxGrid {
 
     for (TitleGridBox box : gridBoxes) {
       box.fadeToBlack(probability);
-      box.run();
+      if (box.draw) box.run();
     }
   }
 
@@ -121,7 +128,7 @@ class BoxGrid {
 
     for (TitleGridBox box : gridBoxes) {
       box.update(probability);
-      box.run();
+      if (box.draw) box.run();
     }
   }
 }

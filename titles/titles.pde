@@ -4,7 +4,7 @@ boolean debugGrid = false;
 boolean debugText = false;
 boolean looping = true;
 
-int sketchState = 2;
+int sketchState = 0;
 boolean changeSketchState = false;
 
 Random generator;

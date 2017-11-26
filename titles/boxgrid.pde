@@ -1,5 +1,5 @@
 class BoxGrid {
-  ArrayList<GridBox> gridBoxes = new ArrayList<GridBox>();
+  ArrayList<TitleGridBox> gridBoxes = new ArrayList<TitleGridBox>();
   float probability = 0.5;
   float probInc = 0.005;
 
@@ -36,7 +36,7 @@ class BoxGrid {
         // Fill black for even cols + odd rows
         else if ((c%2 == 1 && r%2 == 0) || (c%2 == 0 && r%2 == 1)) initClr = color(0);
 
-        GridBox gbox = new GridBox(initLoc, initClr, gridBoxDiv, acceptableDist);
+        TitleGridBox gbox = new TitleGridBox(initLoc, initClr, gridBoxDiv, acceptableDist);
 
         gridBoxes.add(gbox);
 
@@ -47,14 +47,14 @@ class BoxGrid {
 
   // calculate boxes distance to text
   void boxesToText(TextBlock tblock) {
-    for (GridBox box : gridBoxes) {
+    for (TitleGridBox box : gridBoxes) {
       box.distToLtr = box.distToLtr(tblock.fontPoints);
     }
   }
 
   // calculate boxes distance to text
   void boxesToTextPVect(ArrayList<PVector> textPoints) {
-    for (GridBox box : gridBoxes) {
+    for (TitleGridBox box : gridBoxes) {
       box.distToLtr = box.distToLtrPVect(textPoints);
     }
   }
@@ -97,7 +97,7 @@ class BoxGrid {
   }
 
   void drawBoxes() {
-    for (GridBox box : gridBoxes) {
+    for (TitleGridBox box : gridBoxes) {
       box.run();
     }
   }
@@ -110,7 +110,7 @@ class BoxGrid {
     //   changeState = true;
     // }
 
-    for (GridBox box : gridBoxes) {
+    for (TitleGridBox box : gridBoxes) {
       box.fadeToBlack(probability);
       box.run();
     }
@@ -119,7 +119,7 @@ class BoxGrid {
 
   void animBoxes() {
 
-    for (GridBox box : gridBoxes) {
+    for (TitleGridBox box : gridBoxes) {
       box.update(probability);
       box.run();
     }

@@ -1,24 +1,53 @@
 class NameHighlight {
- ArrayList<GridBox> gridBoxes = new ArrayList<GridBox>();
+ ArrayList<HlGridBox> gridBoxes = new ArrayList<HlGridBox>();
  PVector destination;
 
- NameHighlight(PVector iDest, float limitL, float limitR, int gridBoxDiv, float acceptableDist, int numOfBoxes) {
+  NameHighlight(PVector iDest, float limitL, float limitR, int gridBoxDiv, int numOfBoxes) {
 
-  for (int i = 0; i < numOfBoxes; i++) {
-    int randX = int(random(limitL, limitR));
-    int randY = int(random(height));
+    for (int i = 0; i < numOfBoxes; i++) {
 
-    PVector initLoc = new PVector(randX*(COLUMNWIDTH/gridBoxDiv), randY*(ROWHEIGHT/gridBoxDiv));
-    color initClr = color(255, 0, 0);
+      // Create initial location 
+      //int randX = int(random(limitL, limitR));
+      int randX = int(random(width));
+      int randY = int(random(height));
+      float initX = randX*(COLUMNWIDTH/gridBoxDiv);
+      float initY = randY*(ROWHEIGHT/gridBoxDiv);
+      PVector initLoc = new PVector(initX, initY);
 
-    GridBox gbox = new GridBox(initLoc, initClr, gridBoxDiv, acceptableDist);
+      // Create final location on gaussian curve for x and y
+      float randXRange = 0.07 * width;
+      float randYRange = 0.09 * height;
+      
+      float yOffset = 0.2 * height;
 
-    gridBoxes.add(gbox);
+      float destX = gaussianCoord(randXRange, iDest.x);
+      float destY = gaussianCoord(randYRange, iDest.y + yOffset);
+
+      PVector destLoc = new PVector(destX, destY);
+
+      // Initialize all at same color
+      color initClr = color(5,5,5);
+
+      // Create new box
+      HlGridBox gbox = new HlGridBox(initLoc, initClr, gridBoxDiv, destLoc);
+
+      // Add all boxes to array
+      gridBoxes.add(gbox);
+    }
   }
-}
 
- void drawBoxes() {
-    for (GridBox box : gridBoxes) {
+  float gaussianCoord(float sd, float mean) {
+    float coordinate; 
+    float num = (float) generator.nextGaussian();
+
+    coordinate = sd * num + mean;
+
+    return coordinate;
+  } 
+
+  void drawBoxes() {
+    for (HlGridBox box : gridBoxes) {
+      box.update();
       box.run();
     }
   }

@@ -27,16 +27,11 @@ void setupText() {
   // Initialize geomerative 
   RG.init(this);
 
-  boxGridBS = new BoxGrid(3, 0.002 * width);
-  boxGridTitle = new BoxGrid(7, 0.001 * width);
+  int bsGridDivs = 3;
+  int stuTitleGridDivs = 7; 
 
-  // ONETHIRD/COLUMNWIDTH gives amount of columns for width of allowable screen
-  float acceptableDist = width * 1.0;
-  float limitL = (ONETHIRD/COLUMNWIDTH) * 3;
-  float limitR = (TWOTHIRD/COLUMNWIDTH) * 3;
-  //float limitR = (ONETHIRD/COLUMNWIDTH) * 3;
-  //println(ONETHIRD, COLUMNWIDTH, limitR);
-  highLightL = new NameHighlight(VISUALLEFTCTR, limitL, limitR, 3, acceptableDist, 1000);
+  boxGridBS = new BoxGrid(bsGridDivs, 0.002 * width);
+  boxGridTitle = new BoxGrid(stuTitleGridDivs, 0.001 * width);
 
   //  Load the font file we want to use (the file must be in the data folder in the sketch floder)
   int fontSize = floor(0.105 * width);
@@ -57,13 +52,19 @@ void setupText() {
 
   PFont whitneySemiBoldSC = createFont("Whitney-SemiboldSC.ttf", 50);
   textFont(whitneySemiBoldSC);
-  textSize(int(fontSizeStudent/2));
+  textSize(int(fontSizeStudent/2.5));
   textAlign(CENTER);
 
   // Create attribution lines 
   namesL = new StudentName(VISUALLEFTCTR, studentAttribution);
   namesC = new StudentName(VISUALCTR, studentAttribution);
   namesR = new StudentName(VISUALRIGHTCTR, studentAttribution);
+
+  // ONETHIRD/COLUMNWIDTH gives amount of columns for width of allowable screen
+  float limitL = 0.0;
+  float limitR = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
+  //println(ONETHIRD, COLUMNWIDTH, limitR);
+  highLightL = new NameHighlight(VISUALLEFTCTR, limitL, limitR, bsGridDivs, 1500);
   
 }
 
@@ -137,11 +138,12 @@ void animText() {
 
   // hold title on screen 
   if (textState == 6) {
-    boolean dontChange = boxGridTitle.holdBoxesState();
-    //changeState = boxGridTitle.holdBoxesState();
-    //boxGridTitle.animBoxes();
-    highLightL.drawBoxes();
 
+    // boolean dontChange = boxGridTitle.holdBoxesState();
+    // changeState = boxGridTitle.holdBoxesState();
+    // boxGridTitle.animBoxes();
+
+    highLightL.drawBoxes();
     namesL.display();
     namesC.display();
     namesR.display();

@@ -1,9 +1,13 @@
+import java.util.Random;
+
 boolean debugGrid = false;
 boolean debugText = false;
 boolean looping = true;
 
 int sketchState = 2;
 boolean changeSketchState = false;
+
+Random generator;
 
 void setup() {
   //size(11520, 1080, P3D);
@@ -16,6 +20,7 @@ void setup() {
 
   size(1440, 135, P2D);
   //surface.setLocation(0,0);
+  generator = new Random();
 
   setupGrid(); 
   setupText();

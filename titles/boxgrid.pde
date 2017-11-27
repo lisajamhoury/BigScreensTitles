@@ -5,6 +5,11 @@ class BoxGrid {
   float probability = 0.5;
   float probInc = 0.005;
 
+  // For grid to random
+  float initRandProp = 0.0001;
+  float initPropInc = 1.05;
+  float randPropLimit = 0.9;
+
   // For holding title on screen
   int now = 0;
   int holdTime = 3000; // 3 seconds
@@ -13,7 +18,6 @@ class BoxGrid {
   // For revealing boxes from center
   float revealDist = 0.0;
   float revealLerp = 0.003;
-
 
   BoxGrid(int gridBoxDiv, float acceptableDist) {
     
@@ -57,7 +61,6 @@ class BoxGrid {
 
       }
     }
-
   }
 
   // calculate boxes distance to text
@@ -72,6 +75,37 @@ class BoxGrid {
     for (TitleGridBox box : gridBoxes) {
       box.distToLtr = box.distToLtrPVect(textPoints);
     }
+  }
+
+  // reset all boxes draw to true
+  void resetAlpha() {
+    for (TitleGridBox box : gridBoxes) {
+      box.alpha = 255;
+    }
+  }
+
+  boolean gridToRandom() {
+    boolean stateComplete = false;
+
+    for (TitleGridBox box : gridBoxes) {
+      
+      //Make random number 
+      float num = random(1);
+
+      if (num < initRandProp) {
+        box.update(probability);
+      }
+      if (box.draw) box.run();  
+    }    
+
+    if (initRandProp < randPropLimit) {
+      initRandProp*=initPropInc;
+      
+    } else {
+      
+      stateComplete = true;
+    } 
+    return stateComplete;
   }
 
   // change from random boxes to text
@@ -134,7 +168,6 @@ class BoxGrid {
     // Keep widening reveal distance
     revealDist = lerp(revealDist, width, revealLerp);
 
-    println(stateComplete);
     return stateComplete;
   }
 

@@ -40,6 +40,9 @@ void setupText() {
   float bsOffsetX = width/2;
   float bsOffsetY = height*7/8; 
   bigScreens = new TextBlock(fontSize, bsOffsetX, bsOffsetY, "BIG SCREENS 2017", "Block-Berthold-Regular.ttf");
+  
+  // Match box of grids to big screens letters 
+  boxGridBS.boxesToText(bigScreens);
 
   int fontSizeStudent = floor(0.023* width);
   titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
@@ -51,6 +54,12 @@ void setupText() {
   combinePoints(titleL.fontPoints);
   combinePoints(titleC.fontPoints);
   combinePoints(titleR.fontPoints);
+
+  // Match student title grid to combined font points
+  boxGridTitle.boxesToTextPVect(combTitlesPoints);
+
+  // Allow all boxes to be drawn — FIX THIS SO NO LONGER NEEDED
+  boxGridTitle.resetAlpha();
 
   PFont whitneySemiBoldSC = createFont("Whitney-SemiboldSC.ttf", 50);
   textFont(whitneySemiBoldSC);
@@ -98,16 +107,14 @@ void advanceState() {
 } 
 
 void animText() {
-    
-
+  //println(textState);
+  
 
   if (changeState) advanceState();
 
   // map grid boxes to big screens
   if (textState == 0) {
-    boxGridBS.boxesToText(bigScreens);
-    boxGridBS.animBoxes();
-    changeState = true; 
+    changeState = boxGridBS.gridToRandom();
   } 
 
   //resolve to Big Screens  
@@ -130,7 +137,6 @@ void animText() {
 
   // map grid boxes to student title
   if (textState == 4) {
-    boxGridTitle.boxesToTextPVect(combTitlesPoints);
     boxGridTitle.animBoxes();
     changeState = true; 
   }
@@ -145,7 +151,6 @@ void animText() {
   if (textState == 6) {
     changeState = boxGridTitle.holdBoxesState();
     boxGridTitle.animBoxes();
-
   }
 
   // hold title, resolve student names 

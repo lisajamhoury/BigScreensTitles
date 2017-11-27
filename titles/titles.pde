@@ -55,7 +55,7 @@ void draw() {
 
   if (sketchState == 2) {
     //changeSketchState = boxGridBS.holdBoxesState();
-    boxGridBS.revealBoxes();
+    changeSketchState = boxGridBS.revealBoxes();
 
     //boxGridBS.drawBoxes();
   }

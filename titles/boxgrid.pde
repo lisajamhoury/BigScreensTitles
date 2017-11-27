@@ -111,8 +111,13 @@ class BoxGrid {
     return holdOver;
   }
 
-  void revealBoxes() {
+  boolean revealBoxes() {
+    boolean stateComplete = true;
+
     for (TitleGridBox box : gridBoxes) {
+
+      // If not drawing box default fadeup to true
+      if (stateComplete) stateComplete = box.fadeComplete;  
 
       // find distance between box and center
       float vectDist = box.location.dist(VISUALCTR);
@@ -128,6 +133,9 @@ class BoxGrid {
 
     // Keep widening reveal distance
     revealDist = lerp(revealDist, width, revealLerp);
+
+    println(stateComplete);
+    return stateComplete;
   }
 
   void drawBoxes() {

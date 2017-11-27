@@ -8,6 +8,7 @@ class TitleGridBox extends GridBox {
   // for fading up box color
   float alpha = 0;
   float alphaInc = 10;
+  boolean fadeComplete = false;
 
 
 
@@ -18,6 +19,12 @@ class TitleGridBox extends GridBox {
 
     initDrawState = iDraw; // use to redraw grid
     draw = iDraw;
+
+    // if we're not initially drawing, override fade
+    if (!draw) {
+      alpha = 255;
+      fadeComplete = true;
+    }
 
   }
 
@@ -45,8 +52,7 @@ class TitleGridBox extends GridBox {
     return tempDist;
   }
 
-  boolean fadeUpClr() {
-    boolean fadeComplete = false;
+  void fadeUpClr() {
     
     if (alpha < 255) {
       alpha+=alphaInc; 
@@ -54,7 +60,6 @@ class TitleGridBox extends GridBox {
       fadeComplete = true;
     } 
 
-    return fadeComplete;
   }
 
   void fadeToBlack(float prob) {

@@ -9,6 +9,10 @@ boolean changeSketchState = false;
 
 Random generator;
 
+int bgValue = 0;
+color bgColor = color(bgValue);
+
+
 void setup() {
   //size(11520, 1080, P3D);
   //fullScreen(P2D, SPAN);
@@ -32,35 +36,55 @@ void setup() {
   noCursor();
 }
 
-void changeSketchState() {
-  sketchState++;
-  changeSketchState = false;
-}
 
 void draw() {
-  background(255);
+  background(bgColor);
+  //background(255);
 
   if (changeSketchState) {
     changeSketchState();
   }
 
   if (sketchState == 0) {
-    changeSketchState = animGrid();
+    changeSketchState = fadeUpBackground();
   }
 
   if (sketchState == 1) {
-    changeSketchState = boxGridBS.holdBoxesState();
-    boxGridBS.drawBoxes();
+    changeSketchState = animGrid();
   }
 
   if (sketchState == 2) {
+    //changeSketchState = boxGridBS.holdBoxesState();
+    boxGridBS.revealBoxes();
+
+    //boxGridBS.drawBoxes();
+  }
+
+  if (sketchState == 3) {
     animText();  
   }
 
   if (debugGrid) drawGrid();
   if (debugText) drawText();
 
+}
 
+boolean fadeUpBackground() {
+  boolean stateComplete = false;
+  
+  if (bgValue < 255) {
+    bgValue++; 
+    bgColor = color(bgValue);
+  } else {
+    stateComplete = true;
+  } 
+
+  return stateComplete;
+}
+
+void changeSketchState() {
+  sketchState++;
+  changeSketchState = false;
 }
 
 void keyPressed() {

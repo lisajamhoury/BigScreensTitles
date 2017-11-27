@@ -4,6 +4,11 @@ class TitleGridBox extends GridBox {
 
   boolean initDrawState = true;
   boolean draw = true;
+  
+  // for fading up box color
+  float alpha = 0;
+  float alphaInc = 10;
+
 
 
   TitleGridBox(PVector iLoc, color iClr, int iGBDiv, float iAD, boolean iDraw) {
@@ -38,6 +43,18 @@ class TitleGridBox extends GridBox {
     }  
 
     return tempDist;
+  }
+
+  boolean fadeUpClr() {
+    boolean fadeComplete = false;
+    
+    if (alpha < 255) {
+      alpha+=alphaInc; 
+    } else {
+      fadeComplete = true;
+    } 
+
+    return fadeComplete;
   }
 
   void fadeToBlack(float prob) {
@@ -80,6 +97,14 @@ class TitleGridBox extends GridBox {
         //boxClr = color (255);
       }
     }
+  }
+
+  // this run uses alpha
+  void run() {
+    noStroke();
+
+    fill(boxClr, alpha);
+    rect(location.x, location.y, COLUMNWIDTH/gridBoxDiv, ROWHEIGHT/gridBoxDiv);      
   }
 
 }

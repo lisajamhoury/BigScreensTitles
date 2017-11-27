@@ -1,11 +1,19 @@
 class BoxGrid {
   ArrayList<TitleGridBox> gridBoxes = new ArrayList<TitleGridBox>();
+
+  // For creating letters 
   float probability = 0.5;
   float probInc = 0.005;
 
+  // For holding title on screen
   int now = 0;
   int holdTime = 3000; // 3 seconds
   boolean timing = false;
+
+  // For revealing boxes from center
+  float revealDist = 0.0;
+  float revealLerp = 0.003;
+
 
   BoxGrid(int gridBoxDiv, float acceptableDist) {
     
@@ -103,6 +111,25 @@ class BoxGrid {
     return holdOver;
   }
 
+  void revealBoxes() {
+    for (TitleGridBox box : gridBoxes) {
+
+      // find distance between box and center
+      float vectDist = box.location.dist(VISUALCTR);
+
+      // draw if it's within the acceptable distance
+      if (vectDist < revealDist) {
+        if (box.draw) {
+          box.fadeUpClr();
+          box.run();  
+        }
+      }
+    }
+
+    // Keep widening reveal distance
+    revealDist = lerp(revealDist, width, revealLerp);
+  }
+
   void drawBoxes() {
     for (TitleGridBox box : gridBoxes) {
       if (box.draw) box.run();
@@ -113,9 +140,6 @@ class BoxGrid {
     if (probability > -0.1) {
       probability -= probInc;
     } 
-    // else {
-    //   changeState = true;
-    // }
 
     for (TitleGridBox box : gridBoxes) {
       box.fadeToBlack(probability);

@@ -44,31 +44,63 @@ class NameHighlight {
     return coordinate;
   } 
 
-  void enterBoxes() {
+  boolean enterBoxes() {
+    boolean stateComplete = true;
+
     for (HlGridBox box : gridBoxes) {
-      box.enter();
+      box.lerpBoxClr(box.boxClr, box.destClr);
       box.run();
+
+      if (stateComplete) stateComplete = box.clrStateComplete(box.boxClr, box.destClr);
     }
+
+    return stateComplete;
   }
 
-  void boxesToDest() {
+  boolean boxesToDest() {
+    boolean stateComplete = true;
+
     for (HlGridBox box : gridBoxes) {
-      box.toDest();
+      box.lerpBoxLoc(box.destination);  
       box.run();
+
+      if (stateComplete) stateComplete = box.locStateComplete(box.destination);
     }
+
+    return stateComplete;
   }
 
-  void boxesToInit() {
-   for (HlGridBox box : gridBoxes) {
-     box.toInitLoc();
-     box.run();
-   } 
+  void drawBoxes() {
+    for (HlGridBox box : gridBoxes) {
+      box.run();
+    }     
   }
-  void exitBoxes() {
+
+  boolean boxesToInit() {
+    boolean stateComplete = true;
+
    for (HlGridBox box : gridBoxes) {
-     box.exit();
+     box.lerpBoxLoc(box.initLoc);
      box.run();
+
+     if (stateComplete) stateComplete = box.locStateComplete(box.initLoc);
    } 
+
+   return stateComplete;
+  }
+
+
+  boolean exitBoxes() {
+    boolean stateComplete = true;
+
+   for (HlGridBox box : gridBoxes) {
+    box.lerpBoxClr(box.boxClr, box.initClr);
+    box.run();
+  
+    if (stateComplete) stateComplete = box.clrStateComplete(box.boxClr, box.initClr);
+   } 
+
+   return stateComplete;
   }
 
 }

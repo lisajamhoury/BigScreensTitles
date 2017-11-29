@@ -22,7 +22,7 @@ NameHighlight highLightR;
 
 ArrayList<PVector> combTitlesPoints;
 
-int textState = 0; 
+int textState = 4; 
 boolean changeState = false;
 
 void setupText() {
@@ -86,7 +86,7 @@ void setupText() {
   //float limitR = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
   
   float limitL = 0.0;
-  float limitR= width;
+  float limitR= (width/COLUMNWIDTH) * bsGridDivs;
   highLightL = new NameHighlight(namesLPos, limitL, limitR, bsGridDivs, 1500);
   
   //limitL = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
@@ -142,7 +142,7 @@ void animText() {
 
   // hold big screens on screen
   if (textState == 2) {
-    changeState = boxGridBS.holdBoxesState();
+    changeState = boxGridBS.holdBoxesState(1000);
     boxGridBS.animBoxes();
   } 
 
@@ -166,49 +166,69 @@ void animText() {
 
   // hold title on screen 
   if (textState == 6) {
-    changeState = boxGridTitle.holdBoxesState();
+    changeState = boxGridTitle.holdBoxesState(1000);
     boxGridTitle.animBoxes();
   }
 
   // hold title, resolve student names 
   if (textState == 7) {
-    changeState = boxGridTitle.holdBoxesState();
-    boxGridTitle.animBoxes();
-
     highLightL.enterBoxes();
     highLightC.enterBoxes();
     highLightR.enterBoxes();
+
+    changeState = boxGridTitle.holdBoxesState(4000);
+    boxGridTitle.animBoxes();
+
+    
+
+  }
+
+  // hold title, resolve student names 
+  if (textState == 8) {
+
+    highLightL.boxesToDest();
+    highLightC.boxesToDest();
+    highLightR.boxesToDest();
     namesL.display();
     namesC.display();
     namesR.display();
 
+    changeState = boxGridTitle.holdBoxesState(4000);
+    boxGridTitle.animBoxes();
   }
 
   // hold title, remove student names 
-  if (textState == 8) {
-    changeState = boxGridTitle.holdBoxesState();
+  if (textState == 9) {
+    
+    highLightL.boxesToInit();
+    highLightC.boxesToInit();
+    highLightR.boxesToInit();  
+
+    changeState = boxGridTitle.holdBoxesState(4000);
     boxGridTitle.animBoxes();
+
+  }
+
+  // hold title, remove student names 
+  if (textState == 10) {
 
     highLightL.exitBoxes();
     highLightC.exitBoxes();
-    highLightR.exitBoxes();
-    namesL.display();
-    namesC.display();
-    namesR.display();    
+    highLightR.exitBoxes();   
+
+    changeState = boxGridTitle.holdBoxesState(4000);
+    boxGridTitle.animBoxes();
 
   }
 
   // unresolve title
-  if (textState == 9) {
+  if (textState == 11) {
     boxGridTitle.unresolveBoxes();
     boxGridTitle.animBoxes();
-    // namesL.display();
-    // namesC.display();
-    // namesR.display();
   }
 
   // fadet to black
-  if (textState == 10) {
+  if (textState == 12) {
     boxGridTitle.fadeToBlack();
 
   }

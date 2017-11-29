@@ -12,7 +12,7 @@ class BoxGrid {
 
   // For holding title on screen
   int now = 0;
-  int holdTime = 3000; // 3 seconds
+  //int holdTime = 3000; // 3 seconds
   boolean timing = false;
 
   // For revealing boxes from center
@@ -129,7 +129,7 @@ class BoxGrid {
   } 
 
   // keep boxes as they are
-  boolean holdBoxesState() {
+  boolean holdBoxesState(int holdTime) {
     boolean holdOver = false;
 
     if (!timing) {

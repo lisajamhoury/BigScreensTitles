@@ -8,12 +8,10 @@ class NameHighlight {
 
        //Create initial location 
       int randX = int(random(limitL, limitR));
-      // int randX = int(random(width));
        int randY = int(random(height));
        float initX = randX*(COLUMNWIDTH/gridBoxDiv);
        float initY = randY*(ROWHEIGHT/gridBoxDiv);
        PVector initLoc = new PVector(initX, initY);
-      //PVector initLoc = new PVector(-5,-5);
 
       // Create final location on gaussian curve for x and y
       float randXRange = 0.07 * width;
@@ -27,7 +25,7 @@ class NameHighlight {
       PVector destLoc = new PVector(destX, destY);
 
       // Initialize all at same color
-      color initClr = color(5,5,5);
+      color initClr = color(255);
 
       // Create new box
       HlGridBox gbox = new HlGridBox(initLoc, initClr, gridBoxDiv, destLoc);
@@ -53,6 +51,19 @@ class NameHighlight {
     }
   }
 
+  void boxesToDest() {
+    for (HlGridBox box : gridBoxes) {
+      box.toDest();
+      box.run();
+    }
+  }
+
+  void boxesToInit() {
+   for (HlGridBox box : gridBoxes) {
+     box.toInitLoc();
+     box.run();
+   } 
+  }
   void exitBoxes() {
    for (HlGridBox box : gridBoxes) {
      box.exit();

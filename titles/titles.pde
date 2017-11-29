@@ -18,11 +18,11 @@ void setup() {
   //fullScreen(P2D, SPAN);
   //size(5000, 469, P3D); // my display
   //fullScreen(P3D);
-  //size(2880, 270, P2D);
+  size(2880, 270, P2D);
   //size(3840,360, P3D);
   //size(1920, 180, P3D); //Aaron's projector 
 
-  size(1440, 135, P2D);
+  //size(1440, 135, P2D);
   //surface.setLocation(0,0);
   generator = new Random();
 
@@ -39,7 +39,7 @@ void setup() {
 
 void draw() {
   background(bgColor);
-  //background(255);
+  //background(255,147, 41);
 
   if (changeSketchState) {
     changeSketchState();

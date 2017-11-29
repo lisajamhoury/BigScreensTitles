@@ -37,17 +37,22 @@ void setupText() {
 
   //  Load the font file we want to use (the file must be in the data folder in the sketch floder)
   int fontSize = floor(0.105 * width);
+  //float bsOffsetX = width/2;
+  //float bsOffsetY = height*7/8;
   float bsOffsetX = width/2;
-  float bsOffsetY = height*7/8; 
+  float bsOffsetY = height * 13/16;
+  
+  
   bigScreens = new TextBlock(fontSize, bsOffsetX, bsOffsetY, "BIG SCREENS 2017", "Block-Berthold-Regular.ttf");
   
   // Match box of grids to big screens letters 
   boxGridBS.boxesToText(bigScreens);
 
   int fontSizeStudent = floor(0.023* width);
-  titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
-  titleC = new TextBlock(fontSizeStudent, VISUALCTR.x, VISUALCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
-  titleR = new TextBlock(fontSizeStudent, VISUALRIGHTCTR.x, VISUALRIGHTCTR.y, studentTitle, "Block-Berthold-Regular.ttf");
+  float titleOffsetY = height / 8 ;
+  titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y  - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
+  titleC = new TextBlock(fontSizeStudent, VISUALCTR.x, VISUALCTR.y - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
+  titleR = new TextBlock(fontSizeStudent, VISUALRIGHTCTR.x, VISUALRIGHTCTR.y  - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
 
   combTitlesPoints = new ArrayList<PVector>();
 
@@ -67,18 +72,30 @@ void setupText() {
   textAlign(CENTER);
 
   // Create attribution lines 
-  namesL = new StudentName(VISUALLEFTCTR, studentAttribution);
-  namesC = new StudentName(VISUALCTR, studentAttribution);
-  namesR = new StudentName(VISUALRIGHTCTR, studentAttribution);
+  float namesOffsetY = height / 10 ;
+  PVector namesLPos = new PVector(VISUALLEFTCTR.x, VISUALLEFTCTR.y - namesOffsetY);
+  PVector namesCPos = new PVector(VISUALCTR.x, VISUALCTR.y - namesOffsetY);
+  PVector namesRPos = new PVector(VISUALRIGHTCTR.x, VISUALRIGHTCTR.y - namesOffsetY);
+  
+  namesL = new StudentName(namesLPos, studentAttribution);
+  namesC = new StudentName(namesCPos, studentAttribution);
+  namesR = new StudentName(namesRPos, studentAttribution);
 
   // ONETHIRD/COLUMNWIDTH gives amount of columns for width of allowable screen
-  float limitL = 0.0;
-  float limitR = width;
+  //float limitL = 0.0;
   //float limitR = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
-  //println(ONETHIRD, COLUMNWIDTH, limitR);
-  highLightL = new NameHighlight(VISUALLEFTCTR, limitL, limitR, bsGridDivs, 1500);
-  highLightC = new NameHighlight(VISUALCTR, limitL, limitR, bsGridDivs, 1500);
-  highLightR = new NameHighlight(VISUALRIGHTCTR, limitL, limitR, bsGridDivs, 1500);
+  
+  float limitL = 0.0;
+  float limitR= width;
+  highLightL = new NameHighlight(namesLPos, limitL, limitR, bsGridDivs, 1500);
+  
+  //limitL = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
+  //limitR = (TWOTHIRD/COLUMNWIDTH) * bsGridDivs;
+  highLightC = new NameHighlight(namesCPos, limitL, limitR, bsGridDivs, 1500);
+  
+  //limitL = (TWOTHIRD/COLUMNWIDTH) * bsGridDivs;
+  //limitR = (width/COLUMNWIDTH) * bsGridDivs;
+  highLightR = new NameHighlight(namesRPos, limitL, limitR, bsGridDivs, 1500);
   
 }
 

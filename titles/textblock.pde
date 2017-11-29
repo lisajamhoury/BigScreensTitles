@@ -1,5 +1,5 @@
 class TextBlock {
-	RShape grp;
+  RShape grp;
   RPoint[] fontPoints;
 
   TextBlock(int ifSize, float iOffsetX, float iOffsetY, String iText, String iFont) {

@@ -119,10 +119,10 @@ class BoxGrid {
   }
 
   // change from text to random boxes
-  void unresolveBoxes() {
+  void unresolveBoxes(float iInc) {
 
     if (probability > 0.5) {
-      probability -= probInc;
+      probability -= iInc;
     } else {
       changeState = true;
     }
@@ -177,9 +177,9 @@ class BoxGrid {
     }
   }
 
-  void fadeToBlack() {
+  void fadeToBlack(float iInc) {
     if (probability > -0.1) {
-      probability -= probInc;
+      probability -= iInc;
     } 
 
     for (TitleGridBox box : gridBoxes) {

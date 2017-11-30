@@ -6,6 +6,7 @@ BoxGrid boxGridTitle;
 
 String studentTitle = "Running Out of Time";
 String studentAttribution = "Mayukh Goswami, Utsav Chadha, Mindy Ossi";
+color studentColor = color(0);
 
 TextBlock bigScreens;
 TextBlock titleL;
@@ -87,15 +88,15 @@ void setupText() {
   
   float limitL = 0.0;
   float limitR= (width/COLUMNWIDTH) * bsGridDivs;
-  highLightL = new NameHighlight(namesLPos, limitL, limitR, bsGridDivs, 1500);
+  highLightL = new NameHighlight(namesLPos, limitL, limitR, bsGridDivs, 1500, studentColor);
   
   //limitL = (ONETHIRD/COLUMNWIDTH) * bsGridDivs;
   //limitR = (TWOTHIRD/COLUMNWIDTH) * bsGridDivs;
-  highLightC = new NameHighlight(namesCPos, limitL, limitR, bsGridDivs, 1500);
+  highLightC = new NameHighlight(namesCPos, limitL, limitR, bsGridDivs, 1500, studentColor);
   
   //limitL = (TWOTHIRD/COLUMNWIDTH) * bsGridDivs;
   //limitR = (width/COLUMNWIDTH) * bsGridDivs;
-  highLightR = new NameHighlight(namesRPos, limitL, limitR, bsGridDivs, 1500);
+  highLightR = new NameHighlight(namesRPos, limitL, limitR, bsGridDivs, 1500, studentColor);
   
 }
 
@@ -124,7 +125,16 @@ void advanceState() {
 } 
 
 void animText() {
-    
+  // Hold times 
+  int bigScreensHold = 1000;
+  int titleHold = 2000;
+  int titlePlusNamesHold = 4000;
+
+  // Unresolve title squares slower
+  float unresolveIncBS = 0.005;
+  float unresolveIncTitle = 0.005/2;
+  float ftbInc = 0.005;
+      
 
   if (changeState) advanceState();
 
@@ -141,13 +151,13 @@ void animText() {
 
   // hold big screens on screen
   if (textState == 2) {
-    changeState = boxGridBS.holdBoxesState(1000);
+    changeState = boxGridBS.holdBoxesState(bigScreensHold);
     boxGridBS.animBoxes();
   } 
 
   // unresolve big screens
   if (textState == 3) {
-    boxGridBS.unresolveBoxes();
+    boxGridBS.unresolveBoxes(unresolveIncBS);
     boxGridBS.animBoxes();
   }
 
@@ -165,7 +175,7 @@ void animText() {
 
   // hold title on screen 
   if (textState == 6) {
-    changeState = boxGridTitle.holdBoxesState(2000);
+    changeState = boxGridTitle.holdBoxesState(titleHold);
     boxGridTitle.animBoxes();
   }
 
@@ -191,21 +201,21 @@ void animText() {
     boxGridTitle.animBoxes();
   }
 
-  // hold title, hold student names 
+  // hold title, hold student names / highlight
   if (textState == 9) {
 
-    highLightL.drawBoxes();
-    highLightC.drawBoxes();
-    highLightR.drawBoxes();
+    highLightL.boxesToDest(); // keep slowly moving boxes
+    highLightC.boxesToDest(); // keep slowly moving boxes
+    highLightR.boxesToDest(); // keep slowly moving boxes
     namesL.display();
     namesC.display();
     namesR.display();
 
-    changeState = boxGridTitle.holdBoxesState(6000);
+    changeState = boxGridTitle.holdBoxesState(titlePlusNamesHold);
     boxGridTitle.animBoxes();
   }
 
-  // hold title, unresolve student names 
+  // hold title, unresolve student names / highlight
   if (textState == 10) {
     
     changeState = highLightL.boxesToInit();
@@ -229,13 +239,14 @@ void animText() {
 
   // unresolve title
   if (textState == 12) {
-    boxGridTitle.unresolveBoxes();
+    boxGridTitle.unresolveBoxes(unresolveIncTitle);
+    //boxGridTitle.gridToRandom();
     boxGridTitle.animBoxes();
   }
 
   // fadet to black
   if (textState == 13) {
-    boxGridTitle.fadeToBlack();
+    boxGridTitle.fadeToBlack(ftbInc);
 
   }
 

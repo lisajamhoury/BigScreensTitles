@@ -1,10 +1,11 @@
 import java.util.Random;
 
+boolean debugBoxes = false;
 boolean debugGrid = false;
 boolean debugText = false;
 boolean looping = true;
 
-int sketchState = 3;
+int sketchState = 0;
 boolean changeSketchState = false;
 
 Random generator;
@@ -20,7 +21,7 @@ void setup() {
   //fullScreen(P3D);
   //size(2880, 270, P2D);
   //size(3840,360, P3D);
-  //size(1920, 180, P3D); //Aaron's projector 
+  //size(1920, 180, P2D); //Aaron's projector 
 
   //size(1440, 135, P2D);
   //surface.setLocation(0,0);
@@ -31,6 +32,8 @@ void setup() {
   setupAnimGrid();
   //setupAnimBoxes();
 
+  if (debugBoxes) sketchState = 2;
+
   //background(0);
   smooth(4);
   noCursor();
@@ -38,8 +41,10 @@ void setup() {
 
 
 void draw() {
-  //background(bgColor);
-  background(255);
+  
+  
+  if (debugBoxes) background(255);
+  else background(bgColor);
 
   if (changeSketchState) {
     changeSketchState();

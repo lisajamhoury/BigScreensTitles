@@ -2,7 +2,7 @@ class NameHighlight {
  ArrayList<HlGridBox> gridBoxes = new ArrayList<HlGridBox>();
  PVector destination;
 
-  NameHighlight(PVector iDest, float limitL, float limitR, int gridBoxDiv, int numOfBoxes) {
+  NameHighlight(PVector iDest, float limitL, float limitR, int gridBoxDiv, int numOfBoxes, color stuClr) {
 
     for (int i = 0; i < numOfBoxes; i++) {
 
@@ -28,7 +28,7 @@ class NameHighlight {
       color initClr = color(255);
 
       // Create new box
-      HlGridBox gbox = new HlGridBox(initLoc, initClr, gridBoxDiv, destLoc);
+      HlGridBox gbox = new HlGridBox(initLoc, initClr, stuClr, gridBoxDiv, destLoc);
 
       // Add all boxes to array
       gridBoxes.add(gbox);

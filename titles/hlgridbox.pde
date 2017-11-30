@@ -2,20 +2,21 @@ class HlGridBox extends GridBox {
   PVector destination;
   float distLerpAmt = 0.1;
 
-  color destClr = color(0);
+  color destClr;
   float clrLerpAmt = 0.025;
 
   // check if box is close to it's placement on screen
-  float inPlace = 0.001 * width;
+  float inPlace = 0.005 * width;
 
   // check if colors are close
   float clrReached = 25;
   
 
-  HlGridBox(PVector iLoc, color iClr, int iGBDiv, PVector iDest) {
+  HlGridBox(PVector iLoc, color iClr, color iDClr, int iGBDiv, PVector iDest) {
     super(iLoc, iClr, iGBDiv);
 
     destination = iDest.copy();
+    destClr = iDClr;
 
   }
 

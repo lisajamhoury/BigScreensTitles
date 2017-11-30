@@ -32,8 +32,8 @@ void setupText() {
   int bsGridDivs = 3;
   int stuTitleGridDivs = 7; 
 
-  boxGridBS = new BoxGrid(bsGridDivs, 0.002 * width);
-  boxGridTitle = new BoxGrid(stuTitleGridDivs, 0.001 * width);
+  boxGridBS = new BoxGrid(bsGridDivs, 0.002 * width, 0.25*width);
+  boxGridTitle = new BoxGrid(stuTitleGridDivs, 0.001 * width, width);
 
   //  Load the font file we want to use (the file must be in the data folder in the sketch floder)
   int fontSize = floor(0.105 * width);
@@ -50,7 +50,7 @@ void setupText() {
 
   int fontSizeStudent = floor(0.023* width);
   float titleOffsetY = height / 8 ;
-  titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y  - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
+  titleL = new TextBlock(fontSizeStudent, VISUALLEFTCTR.x, VISUALLEFTCTR.y - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
   titleC = new TextBlock(fontSizeStudent, VISUALCTR.x, VISUALCTR.y - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
   titleR = new TextBlock(fontSizeStudent, VISUALRIGHTCTR.x, VISUALRIGHTCTR.y  - titleOffsetY, studentTitle, "Block-Berthold-Regular.ttf");
 
@@ -136,19 +136,19 @@ void animText() {
   //resolve to Big Screens  
   if (textState == 1) {
     boxGridBS.resolveBoxes();  
-    boxGridBS.animBoxes();
+    //boxGridBS.animBoxes();
   }
 
   // hold big screens on screen
   if (textState == 2) {
-    changeState = boxGridBS.holdBoxesState(1000);
+    changeState = boxGridBS.holdBoxesState(3000);
     boxGridBS.animBoxes();
   } 
 
   // unresolve big screens
   if (textState == 3) {
     boxGridBS.unresolveBoxes();
-    boxGridBS.animBoxes();
+    //boxGridBS.animBoxes();
   }
 
   // map grid boxes to student title
@@ -160,7 +160,7 @@ void animText() {
   // resolve bodes to student title
   if (textState == 5) {
     boxGridTitle.resolveBoxes();
-    boxGridTitle.animBoxes();
+    //boxGridTitle.animBoxes();
   }
 
   // hold title on screen 
@@ -230,7 +230,7 @@ void animText() {
   // unresolve title
   if (textState == 12) {
     boxGridTitle.unresolveBoxes();
-    boxGridTitle.animBoxes();
+    //boxGridTitle.animBoxes();
   }
 
   // fadet to black

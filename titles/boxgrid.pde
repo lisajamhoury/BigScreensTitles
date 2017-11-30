@@ -3,7 +3,8 @@ class BoxGrid {
 
   // For creating letters 
   float probability = 0.5;
-  float probInc = 0.005;
+  // float probInc = 0.00005;
+  float probInc = 0.0025;
 
   // For grid to random
   float initRandProp = 0.0001;
@@ -19,7 +20,7 @@ class BoxGrid {
   float revealDist = 0.0;
   float revealLerp = 0.003;
 
-  BoxGrid(int gridBoxDiv, float acceptableDist) {
+  BoxGrid(int gridBoxDiv, float acceptableDist, float startDist) {
     
     // Assign initial colors based on grid 
     boolean rowFlipClr = true;
@@ -55,7 +56,7 @@ class BoxGrid {
           initDraw = true;
         }
 
-        TitleGridBox gbox = new TitleGridBox(initLoc, initClr, gridBoxDiv, acceptableDist, initDraw);
+        TitleGridBox gbox = new TitleGridBox(initLoc, initClr, gridBoxDiv, acceptableDist, startDist, initDraw);
 
         gridBoxes.add(gbox);
 
@@ -84,67 +85,6 @@ class BoxGrid {
     }
   }
 
-  boolean gridToRandom() {
-    boolean stateComplete = false;
-
-    for (TitleGridBox box : gridBoxes) {
-      
-      //Make random number 
-      float num = random(1);
-
-      if (num < initRandProp) {
-        box.update(probability);
-      }
-      if (box.draw) box.run();  
-    }    
-
-    if (initRandProp < randPropLimit) {
-      initRandProp*=initPropInc;
-      
-    } else {
-      
-      stateComplete = true;
-    } 
-    return stateComplete;
-  }
-
-  // change from random boxes to text
-  void resolveBoxes() {
-
-    if (probability < 1.0) {
-      probability += probInc;
-    } else {
-      changeState = true;
-    }
-  }
-
-  // change from text to random boxes
-  void unresolveBoxes() {
-
-    if (probability > 0.5) {
-      probability -= probInc;
-    } else {
-      changeState = true;
-    }
-  } 
-
-  // keep boxes as they are
-  boolean holdBoxesState(int holdTime) {
-    boolean holdOver = false;
-
-    if (!timing) {
-      now = millis(); 
-      timing = true;  
-    }
-
-    if (millis() > now + holdTime) {
-      holdOver = true;
-      timing = false;
-    }
-
-    return holdOver;
-  }
-
   boolean revealBoxes() {
     boolean stateComplete = true;
 
@@ -171,6 +111,91 @@ class BoxGrid {
     return stateComplete;
   }
 
+  // slowly dissolve grid to random flashing
+  boolean gridToRandom() {
+    boolean stateComplete = false;
+
+    for (TitleGridBox box : gridBoxes) {
+      
+      //Make random number 
+      float num = random(1);
+
+      if (num < initRandProp) {
+        box.updateRandom(probability);
+      }
+      if (box.draw) box.run();  
+    }    
+
+    if (initRandProp < randPropLimit) {
+      initRandProp*=initPropInc;
+      
+    } else {
+      
+      stateComplete = true;
+    } 
+    return stateComplete;
+  }
+
+  // change from random boxes to text
+  void resolveBoxes() {
+    if (probability < 1.0 - probInc) {
+      probability += probInc;
+    } else {
+      println(probability);
+      changeState = true;
+      probability = 1.0;
+    }
+
+    for (TitleGridBox box : gridBoxes) {
+      box.updateCalculated(probability, false);
+      if (box.draw) box.run();
+    }
+  }
+
+  // change from text to random boxes
+  void unresolveBoxes() {
+    if (probability > 0.5 + probInc) {
+      probability -= probInc;
+    } else {
+      println(probability);
+      changeState = true;
+      probability = 0.5;
+    }
+
+
+    for (TitleGridBox box : gridBoxes) {
+      box.updateCalculated(probability, true);
+      if (box.draw) box.run();
+    }
+  } 
+
+  // keep boxes as they are
+  boolean holdBoxesState(int holdTime) {
+    boolean holdOver = false;
+
+    if (!timing) {
+      now = millis(); 
+      timing = true;  
+    }
+
+    if (millis() > now + holdTime) {
+      holdOver = true;
+      timing = false;
+    }
+
+    return holdOver;
+  }
+
+
+
+  void animBoxes() {
+
+    for (TitleGridBox box : gridBoxes) {
+      box.updateCalculated(probability, true);
+      if (box.draw) box.run();
+    }
+  }
+
   void drawBoxes() {
     for (TitleGridBox box : gridBoxes) {
       if (box.draw) box.run();
@@ -188,12 +213,4 @@ class BoxGrid {
     }
   }
 
-
-  void animBoxes() {
-
-    for (TitleGridBox box : gridBoxes) {
-      box.update(probability);
-      if (box.draw) box.run();
-    }
-  }
 }

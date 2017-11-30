@@ -1,6 +1,8 @@
 class TitleGridBox extends GridBox {
   float distToLtr;
+  float startDist;
   float acceptableDist;
+  float distToClose;
 
   boolean initDrawState = true;
   boolean draw = true;
@@ -12,10 +14,11 @@ class TitleGridBox extends GridBox {
 
 
 
-  TitleGridBox(PVector iLoc, color iClr, int iGBDiv, float iAD, boolean iDraw) {
+  TitleGridBox(PVector iLoc, color iClr, int iGBDiv, float iAD, float iSD, boolean iDraw) {
     super(iLoc, iClr, iGBDiv);
 
     acceptableDist = iAD;
+    startDist = iSD;
 
     initDrawState = iDraw; // use to redraw grid
     draw = iDraw;
@@ -63,20 +66,56 @@ class TitleGridBox extends GridBox {
   }
 
   void fadeToBlack(float prob) {
-    //Make random colors 
+
+    //Make random number
     float num = random(1);
 
     if (num >= prob) {
-      //boxClr = color(0);
       draw = true;
     } else {
       draw = false;
-      //boxClr = color (255);
     }
     
   }
 
-  void update(float prob) {
+  void updateCalculated(float closeNess, boolean dissolve) {
+
+    float acceptDistTemp = startDist - (closeNess * startDist) + acceptableDist;
+
+    // if the box is within the visible range
+    if (distToLtr < acceptDistTemp) {
+
+      // set probability to 1.0
+      float prob = closeNess;
+
+      // map it's probability to it's distance from the letter
+      if (acceptDistTemp != acceptableDist) { 
+        prob = map(distToLtr, acceptDistTemp, acceptableDist, 0.0, closeNess);
+
+        if (dissolve) prob = prob * prob;
+    
+      } 
+      
+      // create a random number
+      float num = random(1);
+
+      // draw the box if the random number is within the probability 
+      if (num < prob) {
+        draw = true;
+      
+      } else {
+        draw = false;
+      
+      }
+
+      // if the box is not within the visible range, don't draw it
+    } else {
+      draw = false;
+    }
+
+ }
+
+  void updateRandom(float prob) {
 
     //Make random colors 
     float num = random(1);
@@ -103,6 +142,7 @@ class TitleGridBox extends GridBox {
       }
     }
   }
+
 
   // this run uses alpha
   void run() {

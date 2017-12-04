@@ -19,7 +19,7 @@ void setupText() {
 
   //  Load the font file we want to use (the file must be in the data folder in the sketch floder)
   int fontSize = floor(0.105 * width);
-  float bsOffsetX = width/2;
+  float bsOffsetX = width/2 - COLUMNWIDTH/2;
   float bsOffsetY = height * 13/16;  
   
   bigScreens = new TextBlock(fontSize, bsOffsetX, bsOffsetY, "BIG SCREENS 2017", "Block-Berthold-Regular.ttf");

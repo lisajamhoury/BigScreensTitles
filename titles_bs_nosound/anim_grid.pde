@@ -39,6 +39,24 @@ void setupAnimGrid() {
   } 
 }
 
+void resetGrid() {
+  for (GridLine line : rowLines) {
+    line.endPoint = line.startPoint.copy();
+  }
+
+  for (GridLine line : opRowLines) {
+    line.endPoint = line.startPoint.copy();
+  }
+  
+  for (GridLine line : colLines) {
+    line.endPoint = line.startPoint.copy();
+  }
+
+  for (GridLine line : opColLines) {
+    line.endPoint = line.startPoint.copy();
+  }
+}
+
 boolean animGrid() {
   boolean stateComplete = true;
 

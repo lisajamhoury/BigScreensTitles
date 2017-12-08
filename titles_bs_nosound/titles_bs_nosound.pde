@@ -5,7 +5,7 @@ boolean debugGrid = false;
 boolean debugText = false;
 boolean looping = true;
 
-int sketchState = 0;
+int sketchState = 1;
 boolean changeSketchState = false;
 
 Random generator;
@@ -48,23 +48,32 @@ void draw() {
   }
 
   if (sketchState == 0) {
-    changeSketchState = fadeUpBackground();
+    println("resetting");
+    boxGridBS.resetGridBoxes();
+    resetGrid();
+    changeSketchState = true;
   }
 
   if (sketchState == 1) {
-    changeSketchState = animGrid();
+    //println("fading up");
+    changeSketchState = fadeUpBackground();
   }
 
   if (sketchState == 2) {
-    changeSketchState = boxGridBS.revealBoxes();
+    changeSketchState = animGrid();
   }
 
   if (sketchState == 3) {
+    changeSketchState = boxGridBS.revealBoxes();
+  }
+
+  if (sketchState == 4) {
     animText();  
   }
 
   if (debugGrid) drawGrid();
   if (debugText) drawText();
+
 
 }
 

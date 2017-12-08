@@ -63,6 +63,24 @@ class BoxGrid {
     }
   }
 
+  void resetGridBoxes() {
+    revealDist = 0.0;
+    initRandProp = 0.0001;
+    initPropInc = 1.05;
+
+    for (TitleGridBox box : gridBoxes) {
+      box.draw = box.initDrawState;
+      box.alpha = 0;
+      box.fadeComplete = false;
+
+      if (!box.draw) {
+        box.alpha = 255;
+        box.fadeComplete= true;
+      }
+    }    
+
+  }
+
   // calculate boxes distance to text
   void boxesToText(TextBlock tblock) {
     for (TitleGridBox box : gridBoxes) {
@@ -177,15 +195,21 @@ class BoxGrid {
     }
   }
 
-  void fadeToBlack(float iInc) {
+  boolean fadeToBlack(float iInc) {
+    boolean stateComplete = false;
+
     if (probability > -0.1) {
       probability -= iInc;
-    } 
+    } else {
+      stateComplete = true;
+    }
 
     for (TitleGridBox box : gridBoxes) {
       box.fadeToBlack(probability);
       if (box.draw) box.run();
     }
+
+    return stateComplete;
   }
 
 

@@ -5,7 +5,6 @@ BoxGrid boxGridBS;
 BoxGrid boxGridTitle;
 
 TextBlock bigScreens;
-boolean soundPlayed = false;
 
 int textState = 0; 
 boolean changeState = false;
@@ -43,7 +42,7 @@ void advanceState() {
 
 void animText() {
   // Hold times 
-  int bigScreensHold = 60000;
+  int bigScreensHold = 180000; //60000
 
 
   // Unresolve title squares slower
@@ -76,9 +75,25 @@ void animText() {
     boxGridBS.animBoxes();
   }
 
-  // fadet to black
+  // fade to black
   if (textState == 4) {
-    boxGridBS.fadeToBlack(ftbInc);
+    changeState = boxGridBS.fadeToBlack(ftbInc);
+  }
+
+  // restart loop
+  if (textState == 5) {
+    boxGridBS.drawBoxes();
+
+    bgValue = 0;
+    bgColor = color(bgValue);
+
+    sketchState = 0;
+    changeSketchState = false;
+
+    textState = 0;
+    changeState = false;
+
+
   }
 
 

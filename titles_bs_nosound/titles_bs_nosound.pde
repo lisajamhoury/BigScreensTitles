@@ -19,7 +19,6 @@ void setup() {
   // size(11520, 1080, P2D);
   // size(7680, 720, P2D);
   //size(5000, 469, P3D); // my display
-  //fullScreen(P3D);
   //size(2880, 270, P2D);
   //size(3840,360, P3D);
   //size(1920, 180, P2D); //Aaron's projector 

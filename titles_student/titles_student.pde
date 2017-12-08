@@ -16,8 +16,8 @@ color bgColor = color(bgValue);
 
 
 void setup() {
-  //size(11520, 1080, P3D);
   fullScreen(P2D, SPAN);
+  //size(11520, 1080, P3D);
   //size(5000, 469, P2D); // my display
   //fullScreen(P3D);
   //size(2880, 270, P2D);

@@ -1,5 +1,4 @@
 import geomerative.*;
-import processing.sound.*;
 
 BoxGrid boxGridTitle;
 
@@ -25,21 +24,12 @@ ArrayList<PVector> combTitlesPoints;
 int textState = 2; 
 boolean changeState = false;
 
-SoundFile file;
-
 void setupText() {
 
-  file = new SoundFile(this, "sounds/win95.wav"); 
-  file.play();
   // Initialize geomerative 
   RG.init(this);
 
-  String[] stuInfo = loadStrings("sounds/win95.txt");
-  println(stuInfo[0]);
-  println(stuInfo[1]);
-  println(stuInfo[2]);
-  println(stuInfo[3]);
-  println(stuInfo[4]);
+  String[] stuInfo = loadStrings("data/title.txt");
 
   studentTitle = stuInfo[0];
   studentAttribution = stuInfo[1];
@@ -49,8 +39,6 @@ void setupText() {
   int b = int(stuInfo[4]);
   
   studentColor = color(r, g, b);
-
-
 
   int bsGridDivs = 3;
   int stuTitleGridDivs = 7; 
@@ -129,7 +117,6 @@ void advanceState() {
 } 
 
 void animText() {
-  println(textState);
   // Hold times 
   int initHold = 1000;
   int titleHold = 500;
@@ -244,10 +231,5 @@ void animText() {
     boxGridTitle.fadeToBlack(ftbInc);
 
   }
-
-  //print(textState);
-  
-  
-  
 
 }

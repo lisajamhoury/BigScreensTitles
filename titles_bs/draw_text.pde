@@ -1,13 +1,17 @@
 import geomerative.*;
+import processing.sound.*;
 
 // setup grid of boxes for big screens text 
 BoxGrid boxGridBS;
 BoxGrid boxGridTitle;
 
 TextBlock bigScreens;
+boolean soundPlayed = false;
 
 int textState = 0; 
 boolean changeState = false;
+
+SoundFile winSound;
 
 void setupText() {
   // Initialize geomerative 
@@ -27,6 +31,9 @@ void setupText() {
   // Match box of grids to big screens letters 
   boxGridBS.boxesToText(bigScreens);
 
+  winSound = new SoundFile(this, "win95.wav");
+  
+
 }
 
 void drawText() {
@@ -43,7 +50,7 @@ void advanceState() {
 
 void animText() {
   // Hold times 
-  int bigScreensHold = 3000;
+  int bigScreensHold = 4000;
 
 
   // Unresolve title squares slower
@@ -59,6 +66,12 @@ void animText() {
 
   //resolve to Big Screens  
   if (textState == 1) {
+    
+    if (!soundPlayed) {
+      winSound.play();
+      soundPlayed = true;
+    }
+    
     boxGridBS.resolveBoxes();  
     boxGridBS.animBoxes();
   }

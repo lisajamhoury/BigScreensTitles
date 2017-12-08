@@ -1,4 +1,4 @@
- import java.util.Random;
+import java.util.Random;
 
 boolean debugBoxes = false;
 boolean debugGrid = false;
